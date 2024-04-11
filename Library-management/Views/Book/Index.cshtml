@@ -6,15 +6,25 @@
 }
 <h1 class="text-center">หนั้งสือทั้งหมด</h1>
 <div class="container-md">
-    <div class="row row-cols-4 container-md ">
+    <div class="row row-cols-3 container-md ">
             @foreach(var book in Model){
-            <div class="row p-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+            <div class="row p-3">
+                <div class="card" style="width: 25rem;">
+                    <img src="https://api.chulabook.com/images/pid-109873.jpeg" class="card-img-top " alt="..." >
                     <div class="card-body">
                         <h5 class="card-title">@book.Title</h5>
-                        <p class="card-text">@book.Description</p>
-                        <a asp-route-id="@book?.Id"  asp-action="Detail" class="btn btn-primary">Go somewhere</a>
+                        <p class="card-text h-50" style="overflow: hidden;">@book.Description</p>
+                        <a asp-route-id="@book?.Id" asp-action="Detail" class="d-flex justify-content-end">more detail</a>
+                        @if (book.IS_borrow)
+                        {
+                            <a asp-route-id="" asp-action="Borrow" class="btn d-flex disabled text-center btn-danger" style="text-align:center">ไม่ว่าง</a>
+                        }
+                        else
+                        {
+                            <a asp-route-id="" asp-action="Borrow" class="btn d-flex  btn-success px-5" style="text-align:center">ยืม</a>
+                        }
+                        
+                       
                     </div>
                 </div>
             </div>

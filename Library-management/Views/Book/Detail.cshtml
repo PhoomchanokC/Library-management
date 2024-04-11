@@ -36,7 +36,14 @@
             @Html.DisplayNameFor(model => model.IS_borrow)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IS_borrow)
+            @if (Model.IS_borrow)
+            {
+                <p class="text-danger ">ถูกยืม</p>
+            }
+            else
+            {
+                <p class="text-success">ว่าง</p>
+            }
         </dd>
     </dl>
 </div>
