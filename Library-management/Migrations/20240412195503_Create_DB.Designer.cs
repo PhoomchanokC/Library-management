@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library_management.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240412154017_DataDB_2")]
-    partial class DataDB_2
+    [Migration("20240412195503_Create_DB")]
+    partial class Create_DB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,13 +52,19 @@ namespace Library_management.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Start")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Start")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Stop")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Stop")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WhoBorrowNow")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -96,13 +102,13 @@ namespace Library_management.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6a032ac5-734e-446a-ba23-4b6212702f9e",
+                            Id = "9eb7a598-74e5-4a1b-9343-3620fc689261",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "56be59ef-bfb3-45dd-9d8b-c1d60e0c5ad4",
+                            Id = "76e895cf-d5c3-4211-a80f-305147af5a66",
                             Name = "client",
                             NormalizedName = "client"
                         });
@@ -226,10 +232,12 @@ namespace Library_management.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -266,10 +274,12 @@ namespace Library_management.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

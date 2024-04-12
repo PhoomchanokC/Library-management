@@ -34,16 +34,20 @@ namespace Library_management.Models
         [Required]
         [DisplayName("จำนวนการยืม")]
         public int Borrow_count { get; set; }
-        
+
         [Required]
         [DisplayName("สถานะ")]
         public bool IS_borrow {  get; set; }
         
         [DisplayName("ยืมตั่งเเต่")]
-        public DateTime Start { get; set; }
+        public string Start { get; set; }
         
         [DisplayName("ยืมถึง")]
-        public DateTime Stop { get; set; }
+        public string Stop { get; set; }
+
+        [DisplayName("คนที่ยืม")]
+        public string WhoBorrowNow { get; set; }
+
 
         [NotMapped]
         public IFormFile ImageFile { get; set; }

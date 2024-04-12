@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library_management.Migrations
 {
     /// <inheritdoc />
-    public partial class DataDB : Migration
+    public partial class Create_DB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,8 +64,9 @@ namespace Library_management.Migrations
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Borrow_count = table.Column<int>(type: "int", nullable: false),
                     IS_borrow = table.Column<bool>(type: "bit", nullable: false),
-                    Start = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Stop = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Stop = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WhoBorrowNow = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -118,8 +119,8 @@ namespace Library_management.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -163,8 +164,8 @@ namespace Library_management.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -183,8 +184,8 @@ namespace Library_management.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2be81e38-10fd-42c2-935c-67e5b0b4ce25", null, "admin", "admin" },
-                    { "acc73b9b-f011-4148-b7ca-63cfb2c7df90", null, "client", "client" }
+                    { "76e895cf-d5c3-4211-a80f-305147af5a66", null, "client", "client" },
+                    { "9eb7a598-74e5-4a1b-9343-3620fc689261", null, "admin", "admin" }
                 });
 
             migrationBuilder.CreateIndex(

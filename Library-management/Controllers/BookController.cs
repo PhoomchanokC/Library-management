@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Library_management.Controllers
 {
     
@@ -24,7 +26,7 @@ namespace Library_management.Controllers
             IEnumerable<Book> all_books = _db.books;
             if (all_books.IsNullOrEmpty())
             {
-                return View();
+              return NotFound();
             }
             return View(all_books);
         }
@@ -42,10 +44,11 @@ namespace Library_management.Controllers
             var value = BitConverter.ToUInt32(encoded, 0) % 1000000;
             obj.Id = Convert.ToString(value);
             obj.IS_borrow = false;
-            obj.Borrow_count = 0;
-          
-
-            using (Stream fs = obj.ImageFile.OpenReadStream())
+            obj.WhoBorrowNow = "";
+            obj.Start = "";
+            obj.Stop = "";
+            obj.Borrow_count = 0;          
+              using (Stream fs = obj.ImageFile.OpenReadStream())
             {
                 using (BinaryReader br = new BinaryReader(fs))
                 {
@@ -68,7 +71,7 @@ namespace Library_management.Controllers
             }
             return View(book);
         }
-
+        [Authorize]
         public IActionResult ConfirmBorrow(string id) {
             Book book = _db.books.FirstOrDefault(x => x.Id == id);
             if (book == null)
@@ -77,17 +80,33 @@ namespace Library_management.Controllers
             }
             return View(book);
         }
-        public IActionResult Borrow(string id)
+        [HttpPost]
+        public IActionResult Borrow(string id,string userid, string stop_date)
         {
+
             Book book = _db.books.FirstOrDefault(y => y.Id == id);
-            if (!book.IS_borrow)
-            {
-                book.Borrow_count++;
-            }
+            book.Borrow_count++;
+             book.WhoBorrowNow = userid;
             book.IS_borrow = !book.IS_borrow;
+            book.Start = Convert.ToString(DateTime.Now.ToShortDateString());
+            book.Stop = Convert.ToString(DateTime.Parse(stop_date).ToShortDateString());
             _db.Update(book);
-            _db.SaveChanges(); 
+            _db.SaveChanges();
             return RedirectToAction("Index");
+
+        }
+     
+        public IActionResult Return(string id)
+        {
+
+           Book book = _db.books.FirstOrDefault(y => y.Id == id);
+           book.WhoBorrowNow = "";
+           book.IS_borrow = !book.IS_borrow;
+
+            _db.Update(book);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+
         }
 
 
