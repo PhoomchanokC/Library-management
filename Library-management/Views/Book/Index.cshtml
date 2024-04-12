@@ -4,30 +4,54 @@
 *@
 @{
 }
-<h1 class="text-center">หนั้งสือทั้งหมด</h1>
+<h1 class="text-center">หนังสือทั้งหมด</h1>
 <div class="container-md">
     <div class="row row-cols-3 container-md ">
             @foreach(var book in Model){
-            <div class="row p-3">
-                <div class="card" style="width: 25rem;">
-                    <img src="https://api.chulabook.com/images/pid-109873.jpeg" class="card-img-top " alt="..." >
+            <div class="row p-4">
+                <div class="card " style="width:18rem;">
+                    <img src="data:image/jpg;base64,@book.Image" class="img-thumbnail mx-auto d-block py-2" alt="..." style="width:200px;height:300px">
                     <div class="card-body">
                         <h5 class="card-title">@book.Title</h5>
-                        <p class="card-text h-50" style="overflow: hidden;">@book.Description</p>
+                        <p class="card-text" style="overflow: hidden; height:5rem">@book.Description</p>
                         <a asp-route-id="@book?.Id" asp-action="Detail" class="d-flex justify-content-end">more detail</a>
-                        @if (book.IS_borrow)
-                        {
-                            <a asp-route-id="" asp-action="Borrow" class="btn d-flex disabled text-center btn-danger" style="text-align:center">ไม่ว่าง</a>
-                        }
-                        else
-                        {
-                            <a asp-route-id="" asp-action="Borrow" class="btn d-flex  btn-success px-5" style="text-align:center">ยืม</a>
-                        }
-                        
-                       
+                        <div class="card-body">
+                            @if (book.IS_borrow)
+                            {
+                                <a asp-route-id="@book?.Id" asp-action="Borrow" onclick="displayAlert()" class="btn d-flex  text-center btn-danger px-5" style="text-align:center">ไม่ว่าง</a>
+                            }
+                            else
+                            {
+                                <a asp-route-id="@book?.Id" asp-action="ConfirmBorrow" class="btn d-flex  btn-success px-5" style="text-align:center">ยืม</a>
+                            }
+
+                        </div>
                     </div>
                 </div>
             </div>
             }
     </div>
 </div>
+@section scripts{
+    <script>
+        function displayAlert(bookID){
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                }
+            });
+        }
+    </script>
+}

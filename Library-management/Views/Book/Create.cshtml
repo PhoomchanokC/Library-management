@@ -1,5 +1,6 @@
 ﻿@model Library_management.Models.Book
 
+
 @{
     ViewData["Title"] = "Create";
 }
@@ -10,13 +11,8 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" asp-controller="Book" method="post">
+        <form asp-action="Create" asp-controller="Book" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -32,16 +28,21 @@
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label asp-for="Borrow_count" class="control-label"></label>
-                <input asp-for="Borrow_count" class="form-control" />
-                <span asp-validation-for="Borrow_count" class="text-danger"></span>
+                <label asp-for="Category" class="control-label"></label>
+                <input asp-for="Category" class="form-control" type="text" accept="image/png,image/jpeg" />
+                <span asp-validation-for="Category" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IS_borrow" /> @Html.DisplayNameFor(model => model.IS_borrow)
-                </label>
+            
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="ImageFile" class="form-control" type="file" accept="image/png,image/jpeg" />
+                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
+
+           
+          
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

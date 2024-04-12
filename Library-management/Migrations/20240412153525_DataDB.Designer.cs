@@ -4,6 +4,7 @@ using Library_management.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library_management.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240412153525_DataDB")]
+    partial class DataDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,15 +96,14 @@ namespace Library_management.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6a032ac5-734e-446a-ba23-4b6212702f9e",
+                            Id = "2be81e38-10fd-42c2-935c-67e5b0b4ce25",
                             Name = "admin",
-                            NormalizedName = "admin"
+                            NormalizedName = "client"
                         },
                         new
                         {
-                            Id = "56be59ef-bfb3-45dd-9d8b-c1d60e0c5ad4",
-                            Name = "client",
-                            NormalizedName = "client"
+                            Id = "acc73b9b-f011-4148-b7ca-63cfb2c7df90",
+                            Name = "client"
                         });
                 });
 
