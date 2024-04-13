@@ -9,7 +9,7 @@ namespace Library_management.Data
     {
         public ApplicationDBContext(DbContextOptions options):base(options) { }
         public DbSet<Book> books { get; set; }
-
+        public DbSet<Borrow_log> borrows { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

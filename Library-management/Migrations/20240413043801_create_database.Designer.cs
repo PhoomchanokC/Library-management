@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library_management.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240412195503_Create_DB")]
-    partial class Create_DB
+    [Migration("20240413043801_create_database")]
+    partial class create_database
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,32 @@ namespace Library_management.Migrations
                     b.ToTable("books");
                 });
 
+            modelBuilder.Entity("Library_management.Models.Borrow_log", b =>
+                {
+                    b.Property<string>("borrow_id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("book_id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("end")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("start")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("borrow_id");
+
+                    b.ToTable("borrows");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -102,13 +128,13 @@ namespace Library_management.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9eb7a598-74e5-4a1b-9343-3620fc689261",
+                            Id = "9aa7253f-e9ff-4a87-8643-83c101651bd5",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "76e895cf-d5c3-4211-a80f-305147af5a66",
+                            Id = "e8e3d8fe-2382-4cdd-8352-11bf4f6b9516",
                             Name = "client",
                             NormalizedName = "client"
                         });

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library_management.Migrations
 {
     /// <inheritdoc />
-    public partial class Create_DB : Migration
+    public partial class create_database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,6 +71,21 @@ namespace Library_management.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_books", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "borrows",
+                columns: table => new
+                {
+                    borrow_id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    book_id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userid = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    start = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    end = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_borrows", x => x.borrow_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,8 +199,8 @@ namespace Library_management.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "76e895cf-d5c3-4211-a80f-305147af5a66", null, "client", "client" },
-                    { "9eb7a598-74e5-4a1b-9343-3620fc689261", null, "admin", "admin" }
+                    { "9aa7253f-e9ff-4a87-8643-83c101651bd5", null, "admin", "admin" },
+                    { "e8e3d8fe-2382-4cdd-8352-11bf4f6b9516", null, "client", "client" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -248,6 +263,9 @@ namespace Library_management.Migrations
 
             migrationBuilder.DropTable(
                 name: "books");
+
+            migrationBuilder.DropTable(
+                name: "borrows");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

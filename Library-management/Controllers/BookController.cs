@@ -24,10 +24,6 @@ namespace Library_management.Controllers
 
           
             IEnumerable<Book> all_books = _db.books;
-            if (all_books.IsNullOrEmpty())
-            {
-              return NotFound();
-            }
             return View(all_books);
         }
         public IActionResult Create() { 
@@ -39,7 +35,7 @@ namespace Library_management.Controllers
             Random rnd = new Random();
             int num = rnd.Next();
             byte[] bytes = null;
-            string str = obj.Title + Convert.ToString(num);
+            string str = obj.Title + Convert.ToString(num) + DateTime.Now;
             byte[] encoded = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(str));
             var value = BitConverter.ToUInt32(encoded, 0) % 1000000;
             obj.Id = Convert.ToString(value);
@@ -84,14 +80,36 @@ namespace Library_management.Controllers
         public IActionResult Borrow(string id,string userid, string stop_date)
         {
 
+            //save book status to db
             Book book = _db.books.FirstOrDefault(y => y.Id == id);
             book.Borrow_count++;
              book.WhoBorrowNow = userid;
             book.IS_borrow = !book.IS_borrow;
             book.Start = Convert.ToString(DateTime.Now.ToShortDateString());
             book.Stop = Convert.ToString(DateTime.Parse(stop_date).ToShortDateString());
+           
+            //save log borrow to db
+            Borrow_log borrow = new Borrow_log();
+            Random rnd = new Random();
+            int num = rnd.Next();
+            byte[] bytes = null;
+            string str = book.Title + Convert.ToString(num) + userid;
+            byte[] encoded = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(str));
+            var value = BitConverter.ToUInt32(encoded, 0) % 10000000;
+            borrow.borrow_id = Convert.ToString(value);
+            borrow.userid = userid;
+            borrow.book_id = book.Id;
+            borrow.start = book.Start;
+            borrow.end = book.Stop;
+
             _db.Update(book);
+            _db.borrows.Add(borrow);
             _db.SaveChanges();
+
+
+           
+           
+            //_db.SaveChanges();
             return RedirectToAction("Index");
 
         }
