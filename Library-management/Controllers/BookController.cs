@@ -20,10 +20,14 @@ namespace Library_management.Controllers
             _db = db;
         }
 
-        public IActionResult Index() { 
 
-          
+
+        public IActionResult Index(string search_bar)
+        {
             IEnumerable<Book> all_books = _db.books;
+            if (!string.IsNullOrEmpty(search_bar)) { 
+                all_books = _db.books.Where(n=> n.Title.Contains(search_bar));
+            }
             return View(all_books);
         }
         public IActionResult Create() { 
