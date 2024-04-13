@@ -28,11 +28,17 @@
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" type="text" accept="image/png,image/jpeg" />
-                <span asp-validation-for="Category" class="text-danger"></span>
+                <select asp-for="Category" class="form-select">
+                    <option selected value="">All</option>
+                    <option value="English Books">English Books</option>
+                    <option value="Chinese Books">Chinese Books</option>
+                    <option value="Japanese Books">Japanese Books</option>
+                    <option value="Thai Books">Thai Books</option>
+                    <option value="Comic/Manga">Comic/Manga</option>
+                </select>
             </div>
             
             <div class="form-group">

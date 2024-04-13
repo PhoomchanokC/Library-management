@@ -10,25 +10,32 @@
 <div class="container" >
     <div class="row">
         <div class="col">
-            <h1 class="text-center">ชื่อหนังสือ: @Model.Title<h1>
             <img src="data:image/jpg;base64,@Model.Image" class=" mx-auto d-block py-2" alt="..." style="width:20rem;height:30rem">
         </div>
         <div class="col">
             <div class="pt-5">
-                <h1>รายระเอียด<h1>   
+               
+                <h4 class="">
+                    ชื่อหนังสือ: <b class="text-decoration-underline py-2">@Model.Title</b><h4>
+                     
+                        <h5 class="fw-bold">รายละเอียด<h5>
             </div>
+
              <p> @Model.Description<p>
-                <form asp-action="Borrow" method="post" asp-route-id="@Model?.Id">
+                @if(!Model.IS_borrow){
+                 <form asp-action="Borrow" method="post" asp-route-id="@Model?.Id">
                     <input type="hidden" name="userid" value="@UserManager.GetUserId(User)">
-                    <label class="form-label fw-bold text-decoration-underline">เลือกวันคืนหนังสือ</label><br/>
+                    <label class="form-label fw-bold text-decoration-underline ">เลือกวันคืนหนังสือ</label><br/>
                     <input type="date" id="stop_date" name="stop_date" data-date-format="DD MMMM YYYY" data-date="" required>
                     <label class="form-label"></label><br/><br/>
                     <div typeof="my-2">
                         <input  type="submit" class="btn-success px-5 btn justify-content-center" value="ยืม">
                     </div>
-                   
-                </form>
-        </div>
+                        </form>
+                    }
+ 
+                 
+              
      </div>
         
 </div>

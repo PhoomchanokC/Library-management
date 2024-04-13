@@ -4,17 +4,27 @@
 *@
 @{
 }
-@if(Model.Count() > 0){
-<h1 class="text-center">หนังสือทั้งหมด</h1>
+
+<h1 class="text-center ">รายการหนังสือ</h1>
 
         <div class="container-xl">
-            <form asp-action="Index" method="post">
+           <form asp-action="Index" method="post" class="row g-3">
             <div class="input-group mb-3">
-                <input class="form-control border border-1 " name="search_bar">
-                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+              <input class="form-control" name="search_bar">
+            <select class="form-select" name="categories">
+                <option selected value="All">All</option>
+                <option value="English Books">English Books</option>
+                <option value="Chinese Books">Chinese Books</option>
+                <option value="Japanese Books">Japanese Books</option>
+                <option value="Thai Books">Thai Books</option>
+                <option value="Comic/Manga">Comic/Manga</option>
+            </select>
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
             </div>
             </form>
-        
+    @if (Model.Count() > 0)
+    {
+
     <div class="row row-cols-4 container-xl ">
             @foreach(var book in Model){
             <div class="row p-4">
@@ -39,8 +49,9 @@
         
             }
     </div>
+    }
 </div>
-}
+
 @section scripts{
     <script>
         function displayAlert(bookID){

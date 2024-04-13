@@ -8,6 +8,7 @@ using Microsoft.Extensions.FileProviders;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Library_management.Controllers
 {
     
@@ -21,21 +22,29 @@ namespace Library_management.Controllers
         }
 
 
-
-        public IActionResult Index(string search_bar)
+        public IActionResult Index(string search_bar,string categories)
         {
             IEnumerable<Book> all_books = _db.books;
-            if (!string.IsNullOrEmpty(search_bar)) { 
-                all_books = _db.books.Where(n=> n.Title.Contains(search_bar));
+            if (search_bar.IsNullOrEmpty() && categories=="All" || search_bar == "" && categories == "All")
+            {
+                return View(all_books);
             }
+            if(!search_bar.IsNullOrEmpty() && categories == "All")
+                all_books = _db.books.Where(n => n.Title.Contains(search_bar) || n.Category.Contains(categories));
+            
+
             return View(all_books);
         }
-        public IActionResult Create() { 
+
+
+        public IActionResult Create() {
             return View(); 
         }
+
         [HttpPost]
         public IActionResult Create(Book obj)
         {
+
             Random rnd = new Random();
             int num = rnd.Next();
             byte[] bytes = null;
@@ -47,7 +56,7 @@ namespace Library_management.Controllers
             obj.WhoBorrowNow = "";
             obj.Start = "";
             obj.Stop = "";
-            obj.Borrow_count = 0;          
+            obj.Borrow_count = 0;
               using (Stream fs = obj.ImageFile.OpenReadStream())
             {
                 using (BinaryReader br = new BinaryReader(fs))
