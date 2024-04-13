@@ -21,21 +21,32 @@ namespace Library_management.Controllers
             _db = db;
         }
 
-
+        [HttpPost]
         public IActionResult Index(string search_bar,string categories)
         {
-
             IEnumerable<Book> all_books = _db.books;
-            if (search_bar.IsNullOrEmpty() && categories == "All")
-            {
-                return View(all_books);
-            }
-            else if (!search_bar.IsNullOrEmpty() && categories != "All")
+            if (!search_bar.IsNullOrEmpty() && categories != "All")
             {
                 all_books = all_books.Where(n => n.Title.Contains(search_bar) && n.Category.Contains(categories));
             }
-         
+            if (!search_bar.IsNullOrEmpty() && categories == "All")
+            {
+                all_books = all_books.Where(n => n.Title.Contains(search_bar));
+            }
+            if (search_bar.IsNullOrEmpty() && categories != "All")
+            {
+                all_books = all_books.Where(n => n.Category.Contains(categories));
+            }
+            if (search_bar.IsNullOrEmpty() && categories == "All")
+            {
+                all_books = all_books;
+            }
+            return View(all_books);
+        }
 
+        public IActionResult Index()
+        {
+            IEnumerable<Book> all_books = _db.books;
             return View(all_books);
         }
 
