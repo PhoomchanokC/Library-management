@@ -24,14 +24,17 @@ namespace Library_management.Controllers
 
         public IActionResult Index(string search_bar,string categories)
         {
+
             IEnumerable<Book> all_books = _db.books;
-            if (search_bar.IsNullOrEmpty() && categories=="All" || search_bar == "" && categories == "All")
+            if (search_bar.IsNullOrEmpty() && categories == "All")
             {
                 return View(all_books);
             }
-            if(!search_bar.IsNullOrEmpty() && categories == "All")
-                all_books = _db.books.Where(n => n.Title.Contains(search_bar) || n.Category.Contains(categories));
-            
+            else if (!search_bar.IsNullOrEmpty() && categories != "All")
+            {
+                all_books = all_books.Where(n => n.Title.Contains(search_bar) && n.Category.Contains(categories));
+            }
+         
 
             return View(all_books);
         }
