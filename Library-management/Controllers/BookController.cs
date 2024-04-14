@@ -206,7 +206,13 @@ namespace Library_management.Controllers
             return RedirectToAction("Index");
 
         }
-
-
+        
+        
+        [Authorize(Roles = "admin")]
+        public IActionResult BookList()
+        {
+            IEnumerable<Book> all_books = _db.books;
+            return View(all_books);
+        }
     }
 }

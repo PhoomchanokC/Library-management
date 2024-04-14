@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Library_management.Models.Book>
+
+@{
+    ViewData["Title"] = "BookList";
+}
+
+<h1>BookList</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="container-fluid">
+
+
+<table class="table overflow-hidden table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.Borrow_count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IS_borrow)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stop)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhoBorrowNow)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Borrow_count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IS_borrow)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Start)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stop)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhoBorrowNow)
+            </td>
+            <td class="">
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success py-1">Edit</a>
+                <hr class="dropdown-divider"/>
+                <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-primary py-1">Details</a>
+                 <hr class="dropdown-divider" />
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger py-1">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
