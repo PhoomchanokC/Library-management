@@ -1,14 +1,16 @@
 ﻿@model Library_management.Models.Book
+
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
-<h1>Create</h1>
+
+<h1>Edit</h1>
 
 <h4>Book</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" asp-controller="Book" method="post" enctype="multipart/form-data">
+        <form asp-action="Edit" asp-controller="Book" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -29,7 +31,7 @@
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
                 <select asp-for="Category" class="form-select">
-                    <option selected value="">All</option>
+                    <option value="">All</option>
                     <option value="English Books">English Books</option>
                     <option value="Chinese Books">Chinese Books</option>
                     <option value="Japanese Books">Japanese Books</option>
@@ -37,16 +39,40 @@
                     <option value="Comic/Manga">Comic/Manga</option>
                 </select>
             </div>
-            
+
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="ImageFile" class="form-control" type="file" accept="image/png,image/jpeg" />
+                <input asp-for="ImageFile" class="form-control" type="file" accept="image/png,image/jpeg" value="data:image /jpg;base64,Model.Image" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
 
-         
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="Borrow_count" class="control-label" hidden></label>
+                <input asp-for="Borrow_count" class="form-control" hidden />
+                <span asp-validation-for="Borrow_count" class="text-danger" hidden></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label " hidden>
+                    <input class="form-check-input" asp-for="IS_borrow" hidden /> @Html.DisplayNameFor(model => model.IS_borrow)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Start" class="control-label" hidden></label>
+                <input asp-for="Start" class="form-control" hidden />
+                <span asp-validation-for="Start" class="text-danger" hidden></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Stop" class="control-label" hidden></label>
+                <input asp-for="Stop" class="form-control" hidden />
+                <span asp-validation-for="Stop" class="text-danger" hidden></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WhoBorrowNow" class="control-label" hidden></label>
+                <input asp-for="WhoBorrowNow" class="form-control" hidden />
+                <span asp-validation-for="WhoBorrowNow" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" />
             </div>
         </form>
     </div>

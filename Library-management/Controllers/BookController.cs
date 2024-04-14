@@ -50,11 +50,12 @@ namespace Library_management.Controllers
             return View(all_books);
         }
 
-
+        [Authorize(Roles = "admin")]
         public IActionResult Create() {
             return View(); 
         }
-
+        
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult Create(Book obj)
         {
@@ -71,6 +72,7 @@ namespace Library_management.Controllers
             obj.Start = "";
             obj.Stop = "";
             obj.Borrow_count = 0;
+
               using (Stream fs = obj.ImageFile.OpenReadStream())
             {
                 using (BinaryReader br = new BinaryReader(fs))
@@ -85,6 +87,7 @@ namespace Library_management.Controllers
                 return RedirectToAction("Index");
             }
 
+        [Authorize]
         public IActionResult Detail(string id)
         {
             Book book = _db.books.FirstOrDefault(x => x.Id == id);
@@ -94,6 +97,7 @@ namespace Library_management.Controllers
             }
             return View(book);
         }
+
         [Authorize]
         public IActionResult ConfirmBorrow(string id) {
             Book book = _db.books.FirstOrDefault(x => x.Id == id);
@@ -103,6 +107,55 @@ namespace Library_management.Controllers
             }
             return View(book);
         }
+
+        [Authorize(Roles = "admin")]
+        public IActionResult Edit(string id)
+        {
+            byte[] bytes = null;
+            System.Diagnostics.Debug.WriteLine(id);
+            Book book = _db.books.FirstOrDefault(x => x.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return View(book);   
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public IActionResult Edit(string id,Book obj)
+        {
+            Book book = _db.books.Find(id);
+            if (obj.ImageFile == null) {
+            return View(book);
+                    }
+            byte[] bytes = null;
+
+            using (Stream fs = obj.ImageFile.OpenReadStream())
+            {
+                using (BinaryReader br = new BinaryReader(fs))
+                {
+                    bytes = br.ReadBytes((Int32)fs.Length);
+                }
+            }
+
+            book.Id = obj.Id;
+            book.Title = obj.Title;
+            book.Author = obj.Author;
+            book.Description = obj.Description;
+            book.Category = obj.Category;
+            book.Image = Convert.ToBase64String(bytes);
+            book.Start = obj.Start;
+            book.Stop = obj.Stop;
+            book.WhoBorrowNow = obj.WhoBorrowNow;
+
+           
+            _db.SaveChanges();
+            return LocalRedirect("/");
+        }
+
+
+
         [HttpPost]
         public IActionResult Borrow(string id,string userid, string stop_date)
         {
@@ -143,7 +196,7 @@ namespace Library_management.Controllers
      
         public IActionResult Return(string id)
         {
-
+            
            Book book = _db.books.FirstOrDefault(y => y.Id == id);
            book.WhoBorrowNow = "";
            book.IS_borrow = !book.IS_borrow;
