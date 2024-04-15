@@ -206,7 +206,7 @@ namespace Library_management.Controllers
 
             _db.Update(book);
             _db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("BookList");
 
         }
 
@@ -229,5 +229,18 @@ namespace Library_management.Controllers
             return RedirectToAction("Index");
 
         }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult History(string id)
+
+        {
+            IEnumerable<Borrow_log> borrow = (IEnumerable<Borrow_log>)_db.borrows;
+            borrow = borrow.Where(n => n.userid == id);
+            return View(borrow);
+            //book = book.Where(n => n.userid == id);
+            //return View(book);
+        }
     }
+        
 }

@@ -6,6 +6,7 @@ namespace Library_management.Models
   
     public class Borrow_log
     {
+
         [Required]
         [Key]
         public string borrow_id{get; set;}
@@ -21,5 +22,7 @@ namespace Library_management.Models
         
         [Required]
         public string end { get; set;}
+
+      
     }
 }

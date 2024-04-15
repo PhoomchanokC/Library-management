@@ -29,7 +29,7 @@
             @foreach(var book in Model){
             <div class="row p-4">
                 <div class="card " style="width:18rem;">
-                    <img src="data:image/jpg;base64,@book.Image" class="img-thumbnail  d-block py-2" alt="..." style="width:140px;height:187px">
+                    <img src="data:image/jpg;base64,@book.Image" class="img-thumbnail  d-block py-2" alt="..." style="width:140px; height:187px">
                     <div class="card-body">
                             <a asp-route-id="@book?.Id" asp-action="Detail" class="card-title text-decoration-underline py-5" style="width: 50px;">@book.Title</a>
                             @if (book.IS_borrow)

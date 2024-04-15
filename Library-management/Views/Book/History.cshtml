@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Library_management.Models.Borrow_log>
+
+@{
+    ViewData["Title"] = "ประวัติการยืม";
+}
+
+<h1 class="text-center py-3">ประวัติการยืม</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.book_id)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.end)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    <a asp-controller="Book" asp-action="ConfirmBorrow" asp-route-id="@item.book_id">@item.book_id</a>
+            </td>
+                   <td>
+                @Html.DisplayFor(modelItem => item.start)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.end)
+            </td>
+        
+        </tr>
+}
+    </tbody>
+</table>

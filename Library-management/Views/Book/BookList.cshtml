@@ -6,21 +6,20 @@
 
 <h1>BookList</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <div class="container-fluid">
 
 
 <table class="table overflow-hidden table-striped">
     <thead>
         <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
@@ -49,12 +48,13 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Id)
+                    </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
+          
             <td>
                 @Html.DisplayFor(modelItem => item.Category)
             </td>
@@ -66,7 +66,23 @@
                 @Html.DisplayFor(modelItem => item.Borrow_count)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IS_borrow)
+                        @if (item.IS_borrow)
+                        {
+                            <div asp-route-id="@item?.Id" asp-action="Return" class="" style="">&nbsp;<b class="text-danger">ถูกยืม</b></div>
+                            <br class="dropdown-divider"/>
+                            <form asp-action="Return" asp-route-id="@item.Id" method="post" id="return">
+                                @if (item.IS_borrow)
+                                {
+                                    <input class="btn btn-warning py-1" type="submit" value="คืน" />
+                                }
+                               
+                            </form>
+                        }
+                        else
+                        {
+                            <div asp-route-id="@item?.Id" asp-action="ConfirmBorrow" class="" style="">&nbsp;<b class="text-success">ว่าง</b></div>
+                        }
+                      
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Start)
@@ -83,8 +99,15 @@
                 <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-primary py-1">Details</a>
                  <hr class="dropdown-divider"/>
                  <form asp-action="Delete" asp-route-id="@item.Id" method="post" id="delete_item" onsubmit="SendForm(event)">
-                      <input class="btn btn-danger py-1" type="submit" value="Delete"/>
-                  </form>
+                            @if (item.IS_borrow){
+                                <input class="btn btn-danger py-1" hidden type="submit" value="Delete"/>
+                            }
+                            else
+                            {
+                                <input class="btn btn-danger py-1" type="submit" value="Delete" />
+                            }
+                        </form>
+                      
             </td>
         </tr>
 }

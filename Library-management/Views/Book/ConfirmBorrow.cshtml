@@ -4,8 +4,15 @@
 @{
     ViewData["Title"] = "ยืนยันการยืม";
 }
+@if (Model.IS_borrow)
+{
+    <h1 class="text-center">รายละเอียดหนังสือ</h1>
+}
+else
+{
+    <h1 class="text-center">ยืนยันการยืมหนังสือ</h1>
+}
 
-<h1 class="text-center">ยืนยันการยืมหนังสือ</h1>
 <hr />
 <div class="container" >
     <div class="row">
