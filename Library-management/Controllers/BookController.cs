@@ -11,7 +11,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Library_management.Controllers
 {
-    
+
     public class BookController : Controller
     {
         private readonly ApplicationDBContext _db;
@@ -22,7 +22,7 @@ namespace Library_management.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string search_bar,string categories)
+        public IActionResult Index(string search_bar, string categories)
         {
             IEnumerable<Book> all_books = _db.books;
             if (!search_bar.IsNullOrEmpty() && categories != "All")
@@ -51,10 +51,11 @@ namespace Library_management.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        public IActionResult Create() {
-            return View(); 
+        public IActionResult Create()
+        {
+            return View();
         }
-        
+
         [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult Create(Book obj)
@@ -73,7 +74,7 @@ namespace Library_management.Controllers
             obj.Stop = "";
             obj.Borrow_count = 0;
 
-              using (Stream fs = obj.ImageFile.OpenReadStream())
+            using (Stream fs = obj.ImageFile.OpenReadStream())
             {
                 using (BinaryReader br = new BinaryReader(fs))
                 {
@@ -81,11 +82,11 @@ namespace Library_management.Controllers
                 }
             }
             obj.Image = Convert.ToBase64String(bytes);
-                _db.books.Add(obj);
-                _db.SaveChanges();
+            _db.books.Add(obj);
+            _db.SaveChanges();
 
-                return RedirectToAction("Index");
-            }
+            return RedirectToAction("Index");
+        }
 
         [Authorize]
         public IActionResult Detail(string id)
@@ -99,7 +100,8 @@ namespace Library_management.Controllers
         }
 
         [Authorize]
-        public IActionResult ConfirmBorrow(string id) {
+        public IActionResult ConfirmBorrow(string id)
+        {
             Book book = _db.books.FirstOrDefault(x => x.Id == id);
             if (book == null)
             {
@@ -118,17 +120,18 @@ namespace Library_management.Controllers
             {
                 return NotFound();
             }
-            return View(book);   
+            return View(book);
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult Edit(string id,Book obj)
+        public IActionResult Edit(string id, Book obj)
         {
             Book book = _db.books.Find(id);
-            if (obj.ImageFile == null) {
-            return View(book);
-                    }
+            if (obj.ImageFile == null)
+            {
+                return View(book);
+            }
             byte[] bytes = null;
 
             using (Stream fs = obj.ImageFile.OpenReadStream())
@@ -149,7 +152,7 @@ namespace Library_management.Controllers
             book.Stop = obj.Stop;
             book.WhoBorrowNow = obj.WhoBorrowNow;
 
-           
+
             _db.SaveChanges();
             return LocalRedirect("/");
         }
@@ -157,17 +160,17 @@ namespace Library_management.Controllers
 
 
         [HttpPost]
-        public IActionResult Borrow(string id,string userid, string stop_date)
+        public IActionResult Borrow(string id, string userid, string stop_date)
         {
 
             //save book status to db
             Book book = _db.books.FirstOrDefault(y => y.Id == id);
             book.Borrow_count++;
-             book.WhoBorrowNow = userid;
+            book.WhoBorrowNow = userid;
             book.IS_borrow = !book.IS_borrow;
             book.Start = Convert.ToString(DateTime.Now.ToShortDateString());
             book.Stop = Convert.ToString(DateTime.Parse(stop_date).ToShortDateString());
-           
+
             //save log borrow to db
             Borrow_log borrow = new Borrow_log();
             Random rnd = new Random();
@@ -187,32 +190,44 @@ namespace Library_management.Controllers
             _db.SaveChanges();
 
 
-           
-           
+
+
             //_db.SaveChanges();
             return RedirectToAction("Index");
 
         }
-     
+
         public IActionResult Return(string id)
         {
-            
-           Book book = _db.books.FirstOrDefault(y => y.Id == id);
-           book.WhoBorrowNow = "";
-           book.IS_borrow = !book.IS_borrow;
+
+            Book book = _db.books.FirstOrDefault(y => y.Id == id);
+            book.WhoBorrowNow = "";
+            book.IS_borrow = !book.IS_borrow;
 
             _db.Update(book);
             _db.SaveChanges();
             return RedirectToAction("Index");
 
         }
-        
-        
+
+
         [Authorize(Roles = "admin")]
         public IActionResult BookList()
         {
             IEnumerable<Book> all_books = _db.books;
             return View(all_books);
+        }
+
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public IActionResult Delete(string id)
+        {
+            Book book = _db.books.Find(id);
+            _db.Remove(book);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+
         }
     }
 }

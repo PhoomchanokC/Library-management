@@ -81,11 +81,37 @@
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success py-1">Edit</a>
                 <hr class="dropdown-divider"/>
                 <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-primary py-1">Details</a>
-                 <hr class="dropdown-divider" />
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger py-1">Delete</a>
+                 <hr class="dropdown-divider"/>
+                 <form asp-action="Delete" asp-route-id="@item.Id" method="post" id="delete_item" onsubmit="SendForm(event)">
+                      <input class="btn btn-danger py-1" type="submit" value="Delete"/>
+                  </form>
             </td>
         </tr>
 }
     </tbody>
 </table>
 </div>
+
+
+@section Scripts
+{
+    <script>
+        function SendForm(e) {
+            e.preventDefault();
+            swal.fire({
+                title: 'Do you want to Delete item ?',
+                icon: "question",
+                showCancelButton: true
+            }).then(result => {
+                if (result.isConfirmed) {
+                    const form = e.target;
+                    form.submit();
+                }
+            })
+
+            
+        }
+
+    </script>
+}
+
