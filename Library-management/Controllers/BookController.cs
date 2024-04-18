@@ -148,11 +148,11 @@ namespace Library_management.Controllers
             book.Author = obj.Author;
             book.Description = obj.Description;
             book.IS_borrow = obj.IS_borrow;
+            book.WhoBorrowNow = "";
             book.Category = obj.Category;
             book.Image = Convert.ToBase64String(bytes);
             book.Start = obj.Start;
             book.Stop = obj.Stop;
-            book.WhoBorrowNow = obj.WhoBorrowNow;
 
 
             _db.SaveChanges();
