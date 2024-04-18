@@ -100,6 +100,7 @@ namespace Library_management.Controllers
         }
 
         [Authorize]
+        
         public IActionResult ConfirmBorrow(string id)
         {
             Book book = _db.books.FirstOrDefault(x => x.Id == id);
@@ -146,6 +147,7 @@ namespace Library_management.Controllers
             book.Title = obj.Title;
             book.Author = obj.Author;
             book.Description = obj.Description;
+            book.IS_borrow = obj.IS_borrow;
             book.Category = obj.Category;
             book.Image = Convert.ToBase64String(bytes);
             book.Start = obj.Start;
@@ -233,7 +235,7 @@ namespace Library_management.Controllers
         [HttpPost]
         [Authorize]
         public IActionResult History(string id)
-
+            
         {
             IEnumerable<Borrow_log> borrow = (IEnumerable<Borrow_log>)_db.borrows;
             borrow = borrow.Where(n => n.userid == id);
